@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* optional polished typography */
+.prose {
+  @apply max-w-none leading-7 text-slate-800;
+}
