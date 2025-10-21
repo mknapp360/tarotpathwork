@@ -30,8 +30,9 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
         <div className="flex-grow" />
         <nav className="flex gap-1 text-xl text-tpwhite">
           <NavLink to="/blog" className={({isActive}) => `${link} ${isActive?active:''}`} >Articles</NavLink>
-          <NavLink to="/contact" className={({isActive}) => `${link} ${isActive?active:''}`}>Contact</NavLink>
-          <NavLink to="/readings" className={({isActive}) => `${link} ${isActive?active:''}`}>Book A Reading</NavLink>
+          <NavLink to="/kabbalah" className={({isActive}) => `${link} ${isActive?active:''}`} >Kabbalah</NavLink>
+         {/*  <NavLink to="/contact" className={({isActive}) => `${link} ${isActive?active:''}`}>Contact</NavLink>*/}
+         {/*  <NavLink to="/readings" className={({isActive}) => `${link} ${isActive?active:''}`}>Book A Reading</NavLink>*/}
         
          {/* Divider (optional) */}
         <div className="h-15 w-px bg-white/20 mx-1 hidden sm:block" />
