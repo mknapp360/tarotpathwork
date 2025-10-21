@@ -22,10 +22,10 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
       className={
         transparent
           ? `fixed inset-x-0 top-0 z-50 ${scrolled ? 'bg-tpblack/80 backdrop-blur' : 'bg-transparent'}`
-          : 'sticky top-0 z-50 bg-tpwhite/80 backdrop-blur border-b'
+          : 'sticky top-0 z-50 bg-tpblack backdrop-blur'
       }
     >
-      <div className={base + (transparent && !scrolled ? ' text-white' : '')}>
+      <div className={base + (transparent && !scrolled ? ' text-tpwhite' : '')}>
         <NavLink to="/" className="font-display text-2xl text-tpwhite lg:text-3xl tracking-tight">Tarot Pathwork</NavLink>
         <div className="flex-grow" />
         <nav className="flex gap-1 text-xl text-tpwhite">
