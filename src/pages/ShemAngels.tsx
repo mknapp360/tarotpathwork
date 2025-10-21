@@ -1,7 +1,7 @@
 import SEO from '../components/SEO'
 import React from "react";
 import { Link } from 'react-router-dom'
-import ShemAngelsCalculator from "@/components/ShemAngelsCalculator";
+import ShemAngelsCalculator from "../components/ShemAngelsCalculator.tsx";
 
 export default function ShemAngels() {
 
