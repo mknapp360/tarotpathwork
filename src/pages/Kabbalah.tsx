@@ -81,10 +81,10 @@ export default function Kabbalah() {
                     Within Tarot Pathwork, the Tree is a spiritual anatomy—a map of the psyche and the soul’s movement through the Four Worlds:
                 </p>
                 <ul className="mt-4 ml-8 mr-8 text-lg text-tpblack">
-                    <li className="mb-2">Atziluth / Fire – the realm of divine will and first impulse.</li>
-                    <li className="mb-2">Briah / Water – the world of creation, emotion, and angelic design.</li>
-                    <li className="mb-2">Yetzirah / Air – the world of formation and intellect, where angels shape archetypes into thought.</li>
-                    <li className="mb-2">Assiah / Earth – the world of action and manifestation, where the divine dream becomes matter.</li>
+                    <li className="mb-2"><strong>Atziluth / Fire –</strong> the realm of divine will and first impulse.</li>
+                    <li className="mb-2"><strong>Briah / Water –</strong> the world of creation, emotion, and angelic design.</li>
+                    <li className="mb-2"><strong>Yetzirah / Air –</strong> the world of formation and intellect, where angels shape archetypes into thought.</li>
+                    <li className="mb-2"><strong>Assiah / Earth –</strong> the world of action and manifestation, where the divine dream becomes matter.</li>
                 </ul>
                 <p className="mt-4 ml-8 mr-8 text-lg text-tpblack">
                     To contemplate the Tree is to align with these currents—to sense where energy is flowing freely and where it has become obstructed. When we meditate upon the sephiroth, we are not studying symbols; we are engaging living intelligences that speak through intuition, synchronicity, and revelation. The Tree becomes a mirror for every choice we make, every revelation we receive, every prayer we speak.
