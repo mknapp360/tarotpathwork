@@ -67,7 +67,7 @@ export default function Kabbalah() {
         <div className="mx-auto grid lg:grid-cols-2 items-center">
 
           {/* Image (left) */}
-            <div className="bg-tpwhite mb-8">
+            <div className="bg-tpwhite pb-8">
                 <h1 className="text-3xl ml-8 sm:text-5xl pt-6 pb-2 items-center font-display tracking-tight text-tpblack">
                 The Living Tree
                 </h1>
