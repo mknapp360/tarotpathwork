@@ -35,7 +35,7 @@ export default function Kabbalah() {
           <div>
             <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
               <img
-                src="/kabbalahHero.jpg"     // <- place your image at /public/kabbalah-hero.jpg
+                src="/kabbalahHero.png"
                 alt="Stylized Tree of Life diagram with luminous pathways"
                 className="block w-full h-full object-cover"
               />
@@ -44,7 +44,7 @@ export default function Kabbalah() {
  
           {/* Text (right) */}
           <div className="max-w-xl">
-            <h1 className="text-3xl sm:text-5xl font-display tracking-tight text-slate-900">
+            <h1 className="text-3xl sm:text-5xl items-center font-display tracking-tight text-slate-900">
               Kabbalah The Architecture of Divine Order
             </h1>
             <p className="mt-4 text-lg text-slate-600">
