@@ -6,13 +6,13 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Tarot Pathwork — Psychic readings & spiritual teaching"
-        description="Precision tarot through a Kabbalistic lens. Clear readings, practical guidance, real alignment."
+        title="Tarot Pathwork"
+        description="Psychic readings & spiritual teachings through a Kabbalistic lens."
         jsonLd={[{
           "@context":"https://schema.org",
           "@type":"WebSite",
           "name":"Tarot Pathwork",
-          "url":"https://www.yourdomain.com"
+          "url":"https://www.tarotpathwork.com"
         }]}
       />
 
@@ -35,10 +35,6 @@ export default function Home() {
               <h1 className="text-4xl sm:text-6xl font-display tracking-tight text-white px-12 lg:px-12">
                 Psychic readings & spiritual teaching
               </h1>
-              <p className="mt-4 text-lg text-white/90 px-12 lg:px-12">
-                Spiritual teachings through a Kabbalistic lens.
-              </p>
-              
             </div>
           </div>
         </div>
