@@ -15,6 +15,7 @@ export default {
           DEFAULT: '#0f172a', // deep slate-900
           light: '#334155',
         },
+        black: '#000000',
         accent: '#f59e0b',   // soft gold
         tpblue: '#1f2747',
         tpwhite: '#f2f2f2',
