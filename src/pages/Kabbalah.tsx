@@ -32,15 +32,14 @@ export default function Kabbalah() {
       <section className="w-full bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-12 py-12 lg:py-20 grid lg:grid-cols-2 gap-10 items-center">
           {/* Image (left) */}
-          <div>
-            <div className="relative overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5">
+            <div className="relative h-full w-full overflow-hidden">
               <img
                 src="/kabbalahHero.png"
                 alt="Stylized Tree of Life diagram with luminous pathways"
-                className="block w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
-          </div>
+          
  
           {/* Text (right) */}
           <div className="max-w-xl">
