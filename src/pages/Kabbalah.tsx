@@ -29,7 +29,7 @@ export default function Kabbalah() {
       />
  
       {/* HERO SECTION */}
-      <section className="w-full bg-black px-6 py-6">
+      <section className="w-full bg-black">
         <div className="mx-auto grid lg:grid-cols-2 items-center">
           {/* Image (left) */}
             <div className="relative h-full w-full overflow-hidden">
@@ -42,7 +42,7 @@ export default function Kabbalah() {
           
  
           {/* Text (right) */}
-          <div className="bg-black">
+          <div className="bg-black pt-6 pb-6">
             <h1 className="text-3xl sm:text-5xl items-center font-display tracking-tight text-tpwhite">
               Kabbalah The Architecture of Divine Order
             </h1>
