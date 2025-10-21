@@ -49,13 +49,13 @@ export default function Kabbalah() {
             <h1 className="text-3xl sm:text-5xl items-center font-display tracking-tight text-tpwhite">
               The Architecture of Divine Order
             </h1>
-            <p className="mt-4 text-lg text-tpwhite">
+            <p className="mt-4 mr-8 text-lg text-tpwhite">
                 The Kabbalah has taken many forms across the centuries—Jewish (in all its forms), Christian, Hermetic—each seeking to map the descent of divine light into creation and its return through our own understanding.
             </p>
-            <p className="mt-2 text-lg text-tpwhite">
+            <p className="mt-4 mr-8 text-lg text-tpwhite">
                 In Tarot Pathwork, this map is both studied and lived. My work draws from Christian Kabbalah, where Christ is the Logos, the living bridge between the infinite and the human; and from Hermetic Kabbalah, which translates the Tree of Life into a language of alchemy, astrology, and tarot, just as the ancients intended. Together they form a path of revelation and embodiment—a way to discern divine order in real time, not as belief, but as experience.
             </p>
-            <p className="mt-2 text-lg text-tpwhite">
+            <p className="mt-4 mb-8 mr-8 text-lg text-tpwhite">
                 Through contemplation, ritual, and the cards themselves, the Tree becomes a mirror of the soul and a diagram of healing. It is from the meeting of these two rivers—the Christian and the Hermetic—that a new current has emerged in my work, one I call Lucian Kabbalah.
             </p>
           </div>
