@@ -87,7 +87,7 @@ export default function Kabbalah() {
                     <li className="mb-2"><strong>Assiah / Earth –</strong> the world of action and manifestation, where the divine dream becomes matter.</li>
                 </ul>
                 <p className="mt-4 ml-8 mr-8 text-lg text-tpblack">
-                    To contemplate the Tree is to align with these currents—to sense where energy is flowing freely and where it has become obstructed. When we meditate upon the sephiroth, we are not studying symbols; we are engaging living intelligences that speak through intuition, synchronicity, and revelation. The Tree becomes a mirror for every choice we make, every revelation we receive, every prayer we speak.
+                    To contemplate the Tree is to align with these currents — to sense where energy is flowing freely and where it has become obstructed. When we meditate upon the sephiroth, we are not studying symbols; we are engaging living intelligences that speak through intuition, synchronicity, and revelation. The Tree becomes a mirror for every choice we make, every revelation we receive, every prayer we speak.
                 </p>
                 <p className="mt-4 ml-8 mr-8 text-lg text-tpblack">
                     In this way, the Living Tree serves as the backbone of Lucian Kabbalah: the eternal dialogue between light and form, heaven and earth, spirit and soul. To work with it is to remember that creation itself is still unfolding—and that we are invited to take part in its continual emanation.
