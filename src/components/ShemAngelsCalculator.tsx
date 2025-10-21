@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
-import type { ShemAngel } from "@/lib/shemAngels";
-import { SHEM_ANGELS } from "@/lib/shemAngels";
+import type { ShemAngel } from "../lib/shemAngels";
+import { SHEM_ANGELS } from "../lib/shemAngels";
 
 // Optional: if you install html2canvas, uncomment the import below and the handler will work.
 // npm i html2canvas
