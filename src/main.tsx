@@ -8,6 +8,7 @@ import About from './pages/About'
 import Readings from './pages/Readings'
 import BlogIndex from './pages/BlogIndex'
 import Contact from './pages/Contact'
+import Kabbalah from './pages/Kabbalah'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: 'readings', element: <Readings /> },
       { path: 'blog', element: <BlogIndex /> },
       { path: 'contact', element: <Contact /> },
+      { path: 'kabbalah', element: <Kabbalah /> },
     ],
   },
 ])
