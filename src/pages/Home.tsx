@@ -50,9 +50,14 @@ export default function Home() {
             What is Tarot Pathwork?
           </h1>
           <p className="mt-4 text-lg  mx-auto max-w-7xl text-white">
-            It is a living synthesis of Kabbalah, rooted in the ancient traditions of angelology and tarot, offering a way to discern divine order in real time. Whether you find yourself at a crossroads or seeking a greater sense of purpose, it reveals the soul’s architecture through direct experience rather than belief.
-Through the cards, the Tree of Life becomes a diagnostic map of your consciousness—each spread reflecting the state of your inner alignment. Tarot Pathwork serves as a sacred technology of translation, turning revelation into action and spirit into form.
-Whether you seek clarity in daily life or initiation into deeper mysteries, this work helps you realign with your divine purpose, restore coherence between the seen and unseen, and walk the path of awareness with presence and grace. Some arrive for the articles, others book a reading or a session, and some stay to study the deeper teachings.
+            It is a living synthesis of Kabbalah, rooted in the ancient traditions of angelology and tarot, offering a way to discern divine order in real time. 
+          </p>
+          <p className="mt-4 text-lg  mx-auto max-w-7xl text-white">
+            Whether you find yourself at a crossroads or seeking a greater sense of purpose, it reveals the soul’s architecture through direct experience rather than belief.
+            Through the cards, the Tree of Life becomes a diagnostic map of your consciousness—each spread reflecting the state of your inner alignment. Tarot Pathwork serves as a sacred technology of translation, turning revelation into action and spirit into form.
+          </p>
+          <p className="mt-4 text-lg  mx-auto max-w-7xl text-white">
+            You may be seeking clarity in your daily life, or initiation into deeper mysteries, this work helps you realign with your divine purpose, restore coherence between the seen and unseen, and walk the path of awareness with presence and grace. Some arrive for the articles, others book a reading or a session, and some stay to study the deeper teachings.
           </p>
           <div className="mt-8 flex gap-3 justify-center">
             <Link to="/readings" className="px-5 py-3 rounded-2xl bg-tpgold mb-4 text-white hover:opacity-90">Book a Reading</Link>
