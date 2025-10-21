@@ -30,7 +30,7 @@ export default function Kabbalah() {
  
       {/* HERO: 2 columns, image left, text right */}
       <section className="w-full bg-white">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12 py-12 lg:py-20 grid lg:grid-cols-2 gap-10 items-center">
+        <div className="mx-auto grid lg:grid-cols-2 gap-10 items-center">
           {/* Image (left) */}
             <div className="relative h-full w-full overflow-hidden">
               <img
