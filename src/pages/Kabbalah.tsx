@@ -43,19 +43,19 @@ export default function Kabbalah() {
  
           {/* Text (right) */}
           <div className="bg-black">
-            <h1 className="text-3xl sm:text-5xl pt-6 pb-2 items-center font-display tracking-tight text-tpwhite">
+            <h1 className="text-3xl sm:text-5xl pt-6 pb-2 ml-8 items-center font-display tracking-tight text-tpwhite">
               Kabbalah
             </h1>
-            <h1 className="text-3xl sm:text-5xl items-center font-display tracking-tight text-tpwhite">
+            <h1 className="text-3xl  ml-8 sm:text-5xl items-center font-display tracking-tight text-tpwhite">
               The Architecture of Divine Order
             </h1>
-            <p className="mt-4 mr-8 text-lg text-tpwhite">
+            <p className="mt-4 ml-8 mr-8 text-lg text-tpwhite">
                 The Kabbalah has taken many forms across the centuries—Jewish (in all its forms), Christian, Hermetic—each seeking to map the descent of divine light into creation and its return through our own understanding.
             </p>
-            <p className="mt-4 mr-8 text-lg text-tpwhite">
+            <p className="mt-4 mr-8 ml-8 text-lg text-tpwhite">
                 In Tarot Pathwork, this map is both studied and lived. My work draws from Christian Kabbalah, where Christ is the Logos, the living bridge between the infinite and the human; and from Hermetic Kabbalah, which translates the Tree of Life into a language of alchemy, astrology, and tarot, just as the ancients intended. Together they form a path of revelation and embodiment—a way to discern divine order in real time, not as belief, but as experience.
             </p>
-            <p className="mt-4 mb-8 mr-8 text-lg text-tpwhite">
+            <p className="mt-4 mb-8 mr-8 ml-8 text-lg text-tpwhite">
                 Through contemplation, ritual, and the cards themselves, the Tree becomes a mirror of the soul and a diagram of healing. It is from the meeting of these two rivers—the Christian and the Hermetic—that a new current has emerged in my work, one I call Lucian Kabbalah.
             </p>
           </div>
@@ -67,7 +67,7 @@ export default function Kabbalah() {
         <div className="mx-auto grid lg:grid-cols-2 items-center">
 
           {/* Image (left) */}
-            <div className="bg-tpwhite">
+            <div className="bg-tpwhite mb-8">
                 <h1 className="text-3xl ml-8 sm:text-5xl pt-6 pb-2 items-center font-display tracking-tight text-tpblack">
                 The Living Tree
                 </h1>
@@ -81,10 +81,10 @@ export default function Kabbalah() {
                     Within Tarot Pathwork, the Tree is a spiritual anatomy—a map of the psyche and the soul’s movement through the Four Worlds:
                 </p>
                 <ul className="mt-4 ml-8 mr-8 text-lg text-tpblack">
-                    <li>Atziluth / Fire – the realm of divine will and first impulse.</li>
-                    <li>Briah / Water – the world of creation, emotion, and angelic design.</li>
-                    <li>Yetzirah / Air – the world of formation and intellect, where angels shape archetypes into thought.</li>
-                    <li>Assiah / Earth – the world of action and manifestation, where the divine dream becomes matter.</li>
+                    <li className="mb-2">Atziluth / Fire – the realm of divine will and first impulse.</li>
+                    <li className="mb-2">Briah / Water – the world of creation, emotion, and angelic design.</li>
+                    <li className="mb-2">Yetzirah / Air – the world of formation and intellect, where angels shape archetypes into thought.</li>
+                    <li className="mb-2">Assiah / Earth – the world of action and manifestation, where the divine dream becomes matter.</li>
                 </ul>
                 <p className="mt-4 ml-8 mr-8 text-lg text-tpblack">
                     To contemplate the Tree is to align with these currents—to sense where energy is flowing freely and where it has become obstructed. When we meditate upon the sephiroth, we are not studying symbols; we are engaging living intelligences that speak through intuition, synchronicity, and revelation. The Tree becomes a mirror for every choice we make, every revelation we receive, every prayer we speak.
