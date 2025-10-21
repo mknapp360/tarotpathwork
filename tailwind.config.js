@@ -16,7 +16,11 @@ export default {
           light: '#334155',
         },
         accent: '#f59e0b',   // soft gold
-        sectionblue: '#313d6e',
+        tpblue: '#1f2747',
+        tpwhite: '#f2f2f2',
+        tpblack: '#252d2f',
+        tpgold: '#bb9258',
+        tpred: '#752f3a',
         buttonbg: '#f4391f',
       },
     },
