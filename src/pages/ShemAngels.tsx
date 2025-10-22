@@ -19,7 +19,7 @@ export default function ShemAngels() {
       />
 
       {/* HERO */}
-      <section className="relative h-[100svh] w-full overflow-hidden">
+      <section className="relative h-[100svh] w-full overflow-hidden flex items-center justify-center">
         {/* background image */}
         <img
           src="/BirthAngelsTiktok.png"
@@ -27,10 +27,14 @@ export default function ShemAngels() {
           className="absolute inset-0 h-full w-full object-cover"
           fetchPriority="high"
         />
-        <h1 className="relative z-10 text-center py-8 text-4xl sm:text-5xl text-tpwhite font-display tracking-tight">
-            Discover the Angels of Your Birth
-          </h1>
-        {/* gradient overlay for readability */}
+      
+        {/* optional overlay for contrast */}
+        <div className="absolute inset-0 bg-black/40"></div>
+      
+        {/* centered text */}
+        <h1 className="relative z-10 text-center text-4xl sm:text-5xl text-tpwhite font-display tracking-tight">
+          Discover the Angels of Your Birth
+        </h1>
       </section>
 
       <section>
