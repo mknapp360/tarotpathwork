@@ -27,7 +27,7 @@ export default function ShemAngels() {
           className="absolute inset-0 h-full w-full object-cover"
           fetchPriority="high"
         />
-        <h1 className="text-center py-8 text-4xl sm:text-5xl text-tpwhite font-display tracking-tight">
+        <h1 className="relative z-10 text-center py-8 text-4xl sm:text-5xl text-tpwhite font-display tracking-tight">
             Discover the Angels of Your Birth
           </h1>
         {/* gradient overlay for readability */}
@@ -36,7 +36,7 @@ export default function ShemAngels() {
       <section>
         <div className="mx-auto bg-tpblue ">
           
-          <p className="mt-4 text-lg  mx-auto max-w-7xl text-tpwhite">
+          <p className="pt-4 text-lg  mx-auto max-w-7xl text-tpwhite">
             For centuries, mystics and sages have turned to the Shem HaMephorash—a sacred 72-fold name of God derived from three verses in the Book of Exodus—as a key to divine guidance and personal transformation. Each of these 72 names corresponds to an angelic intelligence: a spiritual force that oversees a specific aspect of human experience.
           </p>
           <p className="mt-4 text-lg  mx-auto max-w-7xl text-tpwhite">
