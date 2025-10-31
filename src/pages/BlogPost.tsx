@@ -113,17 +113,6 @@ export default function BlogPost() {
 
       {/* Post Content */}
       <article className="max-w-4xl mx-auto px-4 py-12">
-        {/* Cover Image */}
-        {post.cover_image && (
-          <div className="mb-8 rounded-lg overflow-hidden">
-            <img
-              src={post.cover_image}
-              alt={post.title}
-              className="w-full h-auto object-cover"
-            />
-          </div>
-        )}
-
         {/* Title and Meta */}
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-headerText">
@@ -142,9 +131,6 @@ export default function BlogPost() {
             </time>
           </div>
         </div>
-
-        {/* Divider */}
-        <div className="mb-8 border-t border-border" />
 
         {/* Rich Text Content */}
         <div className="prose-wrapper">

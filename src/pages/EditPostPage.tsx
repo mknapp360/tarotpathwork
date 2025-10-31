@@ -19,7 +19,6 @@ import {
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
 
-
 export default function EditPostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -339,6 +338,9 @@ export default function EditPostPage() {
                   value={coverImage}
                   onChange={(e) => setCoverImage(e.target.value)}
                 />
+                <p className="text-xs text-muted-foreground">
+                  This image will appear after the title. Don't add it again in your content!
+                </p>
                 {coverImage && (
                   <img 
                     src={coverImage} 
