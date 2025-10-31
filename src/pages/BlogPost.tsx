@@ -1,68 +1,163 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import SEO from '../components/SEO'
-import { supabase } from '../lib/supabase'
-import type { Post } from '../lib/types'
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
+import { RichTextViewer } from '../components/RichTextEditor';
+import { Button } from '../components/ui/button';
+import { ArrowLeft, Calendar } from 'lucide-react';
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  excerpt?: string;
+  published: boolean;
+  created_at: string;
+  published_at: string;
+  cover_image?: string;
+}
 
 export default function BlogPost() {
-  const { slug } = useParams()
-  const [post, setPost] = useState<Post | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
+    
     async function load() {
-      setLoading(true)
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('slug', slug)
-        .eq('status','published')
-        .limit(1)
-        .single()
-      if (!isMounted) return
-      if (error) console.error(error)
-      setPost(data as Post | null)
-      setLoading(false)
+      setLoading(true);
+      
+      try {
+        // First try to find by slug
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('slug', slug)
+          .eq('published', true)  // Changed from status to published
+          .single();
+
+        if (!isMounted) return;
+
+        if (error) {
+          // If slug fails, try by ID
+          const { data: dataById, error: errorById } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('id', slug)
+            .eq('published', true)
+            .single();
+
+          if (errorById) {
+            console.error('Error loading post:', errorById);
+            setPost(null);
+          } else {
+            setPost(dataById as Post);
+          }
+        } else {
+          setPost(data as Post);
+        }
+      } catch (error) {
+        console.error('Error loading post:', error);
+        setPost(null);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
     }
-    load()
-    return () => { isMounted = false }
-  }, [slug])
+    
+    load();
+    return () => { isMounted = false };
+  }, [slug]);
 
-  if (loading) return <div className="mx-auto max-w-3xl px-4 py-10">Loading…</div>
-  if (!post) return <div className="mx-auto max-w-3xl px-4 py-10">Not found.</div>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading post...</p>
+      </div>
+    );
+  }
 
-  const jsonLd = [{
-    "@context":"https://schema.org",
-    "@type":"Article",
-    "headline": post.title,
-    "datePublished": post.published_at ?? post.created_at,
-    "dateModified": post.updated_at,
-    "image": post.cover_image_url ?? undefined,
-    "author": { "@type":"Person", "name":"Frater Lucis" },
-    "mainEntityOfPage": { "@type":"WebPage", "@id": `https://www.yourdomain.com/blog/${post.slug}` }
-  }]
+  if (!post) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <h1 className="text-4xl font-bold">Post Not Found</h1>
+        <p className="text-muted-foreground">
+          The post you're looking for doesn't exist or has been removed.
+        </p>
+        <Button onClick={() => navigate('/blog')}>Back to Blog</Button>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <SEO title={`${post.title} — Tarot Pathwork`} description={post.excerpt ?? undefined} jsonLd={jsonLd}/>
-      <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-10 prose">
-        <header className="not-prose mb-6">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">{post.title}</h1>
-          {post.published_at && (
-            <p className="text-sm text-slate-500 mt-1">{new Date(post.published_at).toLocaleDateString()}</p>
-          )}
-          {post.cover_image_url && (
-            <img src={post.cover_image_url} alt="" className="mt-4 w-full rounded-xl" />
-          )}
-        </header>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border bg-background backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate('/blog')}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div className="text-center flex-1">
+              <h1 className="font-serif text-2xl md:text-3xl font-bold bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
+                Tarot Pathwork
+              </h1>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {post.content_md}
-        </ReactMarkdown>
+      {/* Post Content */}
+      <article className="max-w-4xl mx-auto px-4 py-12">
+        {/* Cover Image */}
+        {post.cover_image && (
+          <div className="mb-8 rounded-lg overflow-hidden">
+            <img
+              src={post.cover_image}
+              alt={post.title}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        )}
+
+        {/* Title and Meta */}
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-headerText">
+            {post.title}
+          </h1>
+          
+          {/* Date */}
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Calendar className="w-4 h-4" />
+            <time dateTime={post.published_at}>
+              {new Date(post.published_at).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="mb-8 border-t border-border" />
+
+        {/* Rich Text Content */}
+        <div className="prose-wrapper">
+          <RichTextViewer content={post.content} />
+        </div>
+
+        {/* Back Button */}
+        <div className="mt-12 pt-8 border-t border-border">
+          <Button onClick={() => navigate('/blog')} variant="outline">
+            ← Back to Blog
+          </Button>
+        </div>
       </article>
-    </>
-  )
+    </div>
+  );
 }

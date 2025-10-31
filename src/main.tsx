@@ -6,7 +6,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Readings from './pages/Readings'
-import BlogIndex from './pages/BlogIndex'
+import BlogIndex from './pages/BlogIndexPublic'
 import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
 import Kabbalah from './pages/Kabbalah'
@@ -14,6 +14,7 @@ import ShemAngels from './pages/ShemAngels'
 import AdminNewPost from './pages/AdminNewPost'
 import AuthCallback from './pages/AuthCallback'
 import CreatePostPage from './pages/CreatePostPage';
+import EditPostPage from './pages/EditPostPage';
 import PostsListPage from './pages/PostsListPage';
 import PublicPostPage from './pages/PublicPostPage';
 
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: 'auth/callback', element: <AuthCallback /> },
       { path: "/admin/posts", element: <PostsListPage /> },
       { path: "/admin/posts/new", element: <CreatePostPage /> },
+      { path: "/admin/posts/:id/edit", element: <EditPostPage />},
       { path: "/blog/:slug", element: <PublicPostPage /> },
       { path: 'contact', element: <Contact /> },
       { path: 'kabbalah', element: <Kabbalah /> },

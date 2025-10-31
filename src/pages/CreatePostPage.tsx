@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RichTextEditor } from '../components/RichTextEditor';
 import { Button } from '../components/ui/button';
+import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
 import { Card, CardContent, CardHeader } from '../components/ui/card';
 import { supabase } from '../lib/supabase';
@@ -9,11 +10,16 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreatePostPage() {
+  //HOOKS
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  //STATE
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [saving, setSaving] = useState(false);
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  const [coverImage, setCoverImage] = useState('');
+  
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -54,6 +60,7 @@ export default function CreatePostPage() {
         .insert({
           title,
           content, // This is now rich HTML
+          cover_image: coverImage || null,
           author_id: user.id,
           published: false, // Draft by default
         })
@@ -100,6 +107,14 @@ export default function CreatePostPage() {
                 <h1 className="text-2xl font-bold">Create Post</h1>
                 <p className="text-sm text-muted-foreground">Write your blog post or article</p>
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Cover Image URL (optional)</Label>
+              <Input
+                value={coverImage}
+                onChange={(e) => setCoverImage(e.target.value)}
+                placeholder="https://example.com/cover.jpg"
+              />
             </div>
             
             <Button 
