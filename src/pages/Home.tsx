@@ -203,8 +203,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-3 gap-6 py-16">
+
+      {/* Deeper Info Section */}
+      <section className="bg-tpblue mx-auto px-4 sm:px-6 lg:px-8 text-white">
+        <div className="grid sm:grid-cols-3 gap-6 py-16 text-white">
           {[
             {title:'Kabbalah', body:'Living Tree insights and angelic correspondences.'},
             {title:'Tarot Pathwork', body:'Structured spreads for clarity and action.'},
@@ -212,7 +214,7 @@ export default function Home() {
           ].map((c, i) => (
             <div key={i} className="p-6 rounded-2xl border hover:shadow-sm">
               <h3 className="text-lg font-medium">{c.title}</h3>
-              <p className="mt-2 text-slate-600">{c.body}</p>
+              <p className="mt-2 text-white">{c.body}</p>
             </div>
           ))}
         </div>
