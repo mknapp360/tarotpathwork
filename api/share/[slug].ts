@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const description =
       post.excerpt ||
       (post.content || '').replace(/<[^>]*>/g, '').slice(0, 180) + '…'
-    const image = post.cover_image || `${site}/og-default.png`
+    const image = `${site}/api/og/${post.slug || post.id}`;
 
     // minimal HTML with OG + Twitter tags; then redirect the human
     const html = `<!doctype html>
