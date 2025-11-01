@@ -480,6 +480,35 @@ export function RichTextEditor({
             display: table;
             clear: both;
           }
+
+          .ProseMirror ul {
+            list-style: disc !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+          .ProseMirror ol {
+            list-style: decimal !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+          .ProseMirror li {
+            margin: 0.25rem 0 !important;
+          }
+
+          /* Viewer: same fix for the rendered HTML */
+          .rich-text-content ul {
+            list-style: disc !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+          .rich-text-content ol {
+            list-style: decimal !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+          .rich-text-content li {
+            margin: 0.25rem 0 !important;
+          }
         `}
       </style>
       

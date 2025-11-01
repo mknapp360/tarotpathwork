@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       { path: 'shem-angels', element: <ShemAngels /> },
       { path: 'auth/callback', element: <AuthCallback /> },
       // Standalone admin login page (not in AdminLayout)
-      { path: 'admin/new-post', element: <AdminNewPost /> },
+      { path: 'admin/login', element: <AdminNewPost /> },
     ],
   },
   // Admin routes with persistent sidebar
