@@ -581,6 +581,23 @@ export function RichTextViewer({ content }: { content: string }) {
             display: table;
             clear: both;
           }
+
+          /* Ensure bullet and numbered lists display correctly */
+          .rich-text-content ul {
+            list-style: disc !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+
+          .rich-text-content ol {
+            list-style: decimal !important;
+            padding-left: 1.5rem !important;
+            margin: 0.5rem 0 !important;
+          }
+
+          .rich-text-content li {
+            margin: 0.25rem 0 !important;
+          }
         `}
       </style>
       <div className="rich-text-content">
