@@ -65,23 +65,7 @@ const ResizableImage = Image.extend({
       
       // Apply alignment
       const align = node.attrs.align || 'center';
-      if (align === 'left') {
-        container.style.display = 'block';
-        container.style.float = 'left';
-        container.style.marginRight = '1rem';
-        container.style.maxWidth = '50%';
-      } else if (align === 'right') {
-        container.style.display = 'block';
-        container.style.float = 'right';
-        container.style.marginLeft = '1rem';
-        container.style.maxWidth = '50%';
-      } else {
-        container.style.display = 'block';
-        container.style.marginLeft = 'auto';
-        container.style.marginRight = 'auto';
-        container.style.maxWidth = '100%';
-      }
-
+      container.setAttribute('data-align', align);
       const img = document.createElement('img');
       img.src = node.attrs.src;
       img.alt = node.attrs.alt || '';
@@ -89,6 +73,36 @@ const ResizableImage = Image.extend({
       img.style.height = 'auto';
       img.style.display = 'block';
       img.style.borderRadius = '0.5rem';
+      img.setAttribute('data-align', align); // expose to CSS
+
+      if (align === 'left') {
+        container.style.display = 'block';
+        container.style.float = 'left';
+        container.style.marginRight = '1rem';
+        container.style.marginLeft = '0';
+        container.style.maxWidth = '50%';
+        // reset image margins
+        img.style.marginLeft = '0';
+        img.style.marginRight = '0';
+      } else if (align === 'right') {
+        container.style.display = 'block';
+        container.style.float = 'right';
+        container.style.marginLeft = '1rem';
+        container.style.marginRight = '0';
+        container.style.maxWidth = '50%';
+        img.style.marginLeft = '0';
+        img.style.marginRight = '0';
+      } else {
+        // center
+        container.style.display = 'block';
+        container.style.float = 'none';
+        container.style.marginLeft = 'auto';
+        container.style.marginRight = 'auto';
+        container.style.maxWidth = '100%';
+        // this actually centers the image
+        img.style.marginLeft = 'auto';
+        img.style.marginRight = 'auto';
+      }
       
       if (node.attrs.width) {
         img.style.width = node.attrs.width + 'px';
@@ -217,35 +231,42 @@ const ResizableImage = Image.extend({
       return {
         dom: container,
         update: (updatedNode) => {
-          if (updatedNode.type.name !== 'image') {
-            return false;
-          }
+          if (updatedNode.type.name !== 'image') return false;
+
           img.src = updatedNode.attrs.src;
           img.alt = updatedNode.attrs.alt || '';
           if (updatedNode.attrs.width) {
             img.style.width = updatedNode.attrs.width + 'px';
           }
-          
-          // Update alignment
+
           const align = updatedNode.attrs.align || 'center';
+          container.setAttribute('data-align', align);
+          img.setAttribute('data-align', align);
+
           if (align === 'left') {
             container.style.display = 'block';
             container.style.float = 'left';
             container.style.marginRight = '1rem';
             container.style.marginLeft = '0';
             container.style.maxWidth = '50%';
+            img.style.marginLeft = '0';
+            img.style.marginRight = '0';
           } else if (align === 'right') {
             container.style.display = 'block';
             container.style.float = 'right';
             container.style.marginLeft = '1rem';
             container.style.marginRight = '0';
             container.style.maxWidth = '50%';
+            img.style.marginLeft = '0';
+            img.style.marginRight = '0';
           } else {
             container.style.display = 'block';
             container.style.float = 'none';
             container.style.marginLeft = 'auto';
             container.style.marginRight = 'auto';
             container.style.maxWidth = '100%';
+            img.style.marginLeft = 'auto';
+            img.style.marginRight = 'auto';
           }
           
           return true;
