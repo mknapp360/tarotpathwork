@@ -18,12 +18,14 @@ interface Post {
   cover_image?: string;
 }
 
+
 export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
   const [recentPosts, setRecentPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     loadPost();
@@ -98,7 +100,7 @@ export default function BlogPost() {
     );
   }
 
-  const shareUrl = encodeURIComponent(window.location.href);
+  const sharePage = `${window.location.origin}/api/share/${post.slug || post.id}`;
   const shareText = encodeURIComponent(`Check out this post: ${post.title}`);
 
   return (
@@ -146,15 +148,16 @@ export default function BlogPost() {
         </div>
 
         {/* Share Section */}
+        
         <div className="mt-12 border-t pt-8">
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Share2 className="w-4 h-4" />
-            Share this article
+            If you found this article helpful, please share with others
           </h3>
 
           <div className="flex gap-3">
             <a
-              href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`}
+              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(sharePage)}&text=${shareText}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 border rounded-full hover:bg-muted transition"
@@ -162,7 +165,7 @@ export default function BlogPost() {
               <Twitter className="w-5 h-5 text-sky-500" />
             </a>
             <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(sharePage)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 border rounded-full hover:bg-muted transition"
@@ -170,7 +173,7 @@ export default function BlogPost() {
               <Facebook className="w-5 h-5 text-blue-600" />
             </a>
             <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sharePage)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 border rounded-full hover:bg-muted transition"
