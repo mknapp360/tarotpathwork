@@ -3,6 +3,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Typography from '@tiptap/extension-typography';
 import TiptapLink from '@tiptap/extension-link';
+import { Mark, mergeAttributes } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import { useState } from 'react';
 import { 
@@ -297,6 +298,56 @@ function safeUrl(url: string) {
   }
 }
 
+// TypeScript module augmentation for custom commands
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    fontSize: {
+      setFontSize: (size: string | number) => ReturnType;
+    };
+  }
+}
+
+// Custom FontSize mark
+const FontSize = Mark.create<{
+  HTMLAttributes?: Record<string, string>
+}>({
+  name: 'fontSize',
+
+  addAttributes() {
+    return {
+      size: {
+        default: null as string | null,
+        parseHTML: (el: HTMLElement) => el.style.fontSize || null,
+        renderHTML: (attrs: { size?: string | null }) => {
+          if (!attrs.size) return {};
+          return { style: `font-size: ${attrs.size}` };
+        },
+      },
+    };
+  },
+
+  parseHTML() {
+    return [{ style: 'font-size' }];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['span', mergeAttributes(this.options.HTMLAttributes ?? {}, HTMLAttributes), 0];
+  },
+
+  addCommands() {
+    return {
+      setFontSize:
+        (size: number | string) =>
+        ({ chain }) => {
+          const value = typeof size === 'number' ? `${size}px` : size;
+          return chain().setMark(this.name, { size: value }).run();
+        },
+      // we won't expose unsetFontSize to avoid TS augmentation;
+      // we'll call unsetMark('fontSize') from the toolbar.
+    };
+  },
+});
+
 export function RichTextEditor({ 
   content, 
   onChange, 
@@ -338,6 +389,7 @@ export function RichTextEditor({
           class: 'underline decoration-muted-foreground hover:decoration-foreground'
         },
       }),
+      FontSize,
     ],
     content,
     editable,
@@ -405,6 +457,29 @@ export function RichTextEditor({
       >
         <Heading2 className="w-4 h-4" />
       </Button>
+
+      <select
+        onChange={(e) => {
+          const val = e.target.value;
+          const chain = editor.chain().focus();
+          if (val === 'default') {
+            chain.unsetMark('fontSize').run();
+          } else {
+            (chain as any).fontSize.setFontSize(val).run();
+          }
+        }}
+        className="text-sm border rounded px-1 bg-background"
+        defaultValue="default"
+      >
+        <option value="default">Font Size</option>
+        <option value="12">12px</option>
+        <option value="14">14px</option>
+        <option value="16">16px</option>
+        <option value="18">18px</option>
+        <option value="20">20px</option>
+        <option value="24">24px</option>
+        <option value="28">28px</option>
+      </select>
 
       <div className="w-px h-6 bg-border my-auto mx-1" />
 
@@ -535,6 +610,10 @@ export function RichTextEditor({
             content: "";
             display: table;
             clear: both;
+          }
+
+          .prose span[style*="font-size"] {
+            line-height: 1.6;
           }
 
           .ProseMirror ul {
