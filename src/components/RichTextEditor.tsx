@@ -2,6 +2,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Typography from '@tiptap/extension-typography';
+import TiptapLink from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import { useState } from 'react';
 import { 
@@ -9,6 +10,8 @@ import {
   Italic, 
   List, 
   ListOrdered, 
+  Link2,
+  Unlink,
   Heading1, 
   Heading2,
   Quote,
@@ -283,6 +286,17 @@ interface RichTextEditorProps {
   editable?: boolean;
 }
 
+function safeUrl(url: string) {
+  try {
+    const u = new URL(url, window.location.origin);
+    // disallow javascript: etc.
+    if (['http:', 'https:', 'mailto:', 'tel:'].includes(u.protocol)) return u.href;
+    return '';
+  } catch {
+    return '';
+  }
+}
+
 export function RichTextEditor({ 
   content, 
   onChange, 
@@ -313,6 +327,16 @@ export function RichTextEditor({
       ResizableImage.configure({
         inline: false,
         allowBase64: true,
+      }),
+      TiptapLink.configure({
+        autolink: true,         // auto-detects URLs as you type
+        linkOnPaste: true,      // pasting a URL over selected text makes it a link
+        openOnClick: false,     // keep clicks in the editor from navigating away
+        HTMLAttributes: {
+          target: '_blank',
+          rel: 'noopener noreferrer nofollow',
+          class: 'underline decoration-muted-foreground hover:decoration-foreground'
+        },
       }),
     ],
     content,
@@ -454,6 +478,38 @@ export function RichTextEditor({
         disabled={!editor.can().chain().focus().redo().run()}
       >
         <Redo className="w-4 h-4" />
+      </Button>
+
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => {
+          const prev = editor.getAttributes('link')?.href || '';
+          const input = window.prompt('Enter URL', prev || 'https://');
+          if (input === null) return; // cancel
+          const url = safeUrl(input.trim());
+
+          if (!url) {
+            // empty or invalid -> remove link
+            editor.chain().focus().extendMarkRange('link').unsetLink().run();
+            return;
+          }
+          editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+        }}
+        className={cn(editor.isActive('link') && 'bg-accent')}
+      >
+        <Link2 className="w-4 h-4" />
+      </Button>
+
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().unsetLink().run()}
+        disabled={!editor.isActive('link')}
+      >
+        <Unlink className="w-4 h-4" />
       </Button>
     </div>
   );
