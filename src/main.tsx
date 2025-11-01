@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import Layout from './components/Layout'
+import AdminLayout from './components/AdminLayout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Readings from './pages/Readings'
@@ -12,11 +13,11 @@ import Contact from './pages/Contact'
 import Kabbalah from './pages/Kabbalah'
 import ShemAngels from './pages/ShemAngels'
 import AdminNewPost from './pages/AdminNewPost'
+import AdminDashboard from './pages/AdminDashboard'
 import AuthCallback from './pages/AuthCallback'
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
 import PostsListPage from './pages/PostsListPage';
-import PublicPostPage from './pages/PublicPostPage';
 
 
 const router = createBrowserRouter([
@@ -29,15 +30,23 @@ const router = createBrowserRouter([
       { path: 'readings', element: <Readings /> },
       { path: 'blog', element: <BlogIndex /> },
       { path: 'blog/:slug', element: <BlogPost /> },
-      { path: 'admin/new-post', element: <AdminNewPost /> },
-      { path: 'auth/callback', element: <AuthCallback /> },
-      { path: "/admin/posts", element: <PostsListPage /> },
-      { path: "/admin/posts/new", element: <CreatePostPage /> },
-      { path: "/admin/posts/:id/edit", element: <EditPostPage />},
-      { path: "/blog/:slug", element: <PublicPostPage /> },
       { path: 'contact', element: <Contact /> },
       { path: 'kabbalah', element: <Kabbalah /> },
       { path: 'shem-angels', element: <ShemAngels /> },
+      { path: 'auth/callback', element: <AuthCallback /> },
+      // Standalone admin login page (not in AdminLayout)
+      { path: 'admin/new-post', element: <AdminNewPost /> },
+    ],
+  },
+  // Admin routes with persistent sidebar
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: 'dashboard', element: <AdminDashboard /> },
+      { path: 'posts', element: <PostsListPage /> },
+      { path: 'posts/new', element: <CreatePostPage /> },
+      { path: 'posts/:id/edit', element: <EditPostPage /> },
     ],
   },
 ])

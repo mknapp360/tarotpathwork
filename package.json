@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node ./dist-postbuild.cjs",
+    "build": "vite build",
     "preview": "vite preview",
     "sitemap": "node ./src/scripts/generate-sitemap.mjs"
   },
   "dependencies": {
+    "@google-analytics/data": "^5.2.1",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
@@ -38,6 +39,7 @@
     "@types/node": "^24.9.2",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
+    "@vercel/node": "^5.5.3",
     "@vitejs/plugin-react": "^5.0.4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.36.0",
