@@ -21,6 +21,7 @@ import { Button } from '../components/ui/button';
 import { cn } from '../lib/utils';
 import { ImageUploadDialog } from './ImageUploadDialog';
 
+// Custom Image extension with resize handles and alignment
 const ResizableImage = Image.extend({
   addAttributes() {
     return {
@@ -45,6 +46,13 @@ const ResizableImage = Image.extend({
           return { height: attributes.height };
         },
       },
+      align: {
+        default: 'center',
+        parseHTML: element => element.getAttribute('data-align') || 'center',
+        renderHTML: attributes => {
+          return { 'data-align': attributes.align };
+        },
+      },
     };
   },
 
@@ -53,9 +61,26 @@ const ResizableImage = Image.extend({
       const container = document.createElement('div');
       container.className = 'image-resizer';
       container.style.position = 'relative';
-      container.style.display = 'inline-block';
-      container.style.maxWidth = '100%';
       container.style.margin = '1rem 0';
+      
+      // Apply alignment
+      const align = node.attrs.align || 'center';
+      if (align === 'left') {
+        container.style.display = 'block';
+        container.style.float = 'left';
+        container.style.marginRight = '1rem';
+        container.style.maxWidth = '50%';
+      } else if (align === 'right') {
+        container.style.display = 'block';
+        container.style.float = 'right';
+        container.style.marginLeft = '1rem';
+        container.style.maxWidth = '50%';
+      } else {
+        container.style.display = 'block';
+        container.style.marginLeft = 'auto';
+        container.style.marginRight = 'auto';
+        container.style.maxWidth = '100%';
+      }
 
       const img = document.createElement('img');
       img.src = node.attrs.src;
@@ -71,8 +96,67 @@ const ResizableImage = Image.extend({
 
       container.appendChild(img);
 
-      // Only add resize handles in edit mode
+      // Only add controls in edit mode
       if (editor.isEditable) {
+        // Alignment toolbar
+        const toolbar = document.createElement('div');
+        toolbar.className = 'image-toolbar';
+        toolbar.style.position = 'absolute';
+        toolbar.style.top = '8px';
+        toolbar.style.left = '50%';
+        toolbar.style.transform = 'translateX(-50%)';
+        toolbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        toolbar.style.border = '1px solid #e2e8f0';
+        toolbar.style.borderRadius = '0.5rem';
+        toolbar.style.padding = '4px';
+        toolbar.style.display = 'none';
+        toolbar.style.gap = '4px';
+        toolbar.style.zIndex = '10';
+        toolbar.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+
+        const alignments = [
+          { value: 'left', icon: '⬅️', title: 'Align Left' },
+          { value: 'center', icon: '⬆️', title: 'Align Center' },
+          { value: 'right', icon: '➡️', title: 'Align Right' },
+        ];
+
+        alignments.forEach(({ value, icon, title }) => {
+          const btn = document.createElement('button');
+          btn.textContent = icon;
+          btn.title = title;
+          btn.style.padding = '6px 10px';
+          btn.style.border = 'none';
+          btn.style.background = node.attrs.align === value ? '#3b82f6' : 'transparent';
+          btn.style.color = node.attrs.align === value ? 'white' : '#64748b';
+          btn.style.borderRadius = '0.25rem';
+          btn.style.cursor = 'pointer';
+          btn.style.fontSize = '14px';
+          btn.style.transition = 'all 0.2s';
+
+          btn.addEventListener('mouseenter', () => {
+            if (node.attrs.align !== value) {
+              btn.style.background = '#f1f5f9';
+            }
+          });
+
+          btn.addEventListener('mouseleave', () => {
+            if (node.attrs.align !== value) {
+              btn.style.background = 'transparent';
+            }
+          });
+
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof getPos === 'function') {
+              editor.commands.updateAttributes('image', { align: value });
+            }
+          });
+
+          toolbar.appendChild(btn);
+        });
+
+        // Resize handle
         const resizeHandle = document.createElement('div');
         resizeHandle.className = 'resize-handle';
         resizeHandle.style.position = 'absolute';
@@ -88,10 +172,12 @@ const ResizableImage = Image.extend({
 
         container.addEventListener('mouseenter', () => {
           resizeHandle.style.opacity = '0.8';
+          toolbar.style.display = 'flex';
         });
 
         container.addEventListener('mouseleave', () => {
           resizeHandle.style.opacity = '0';
+          toolbar.style.display = 'none';
         });
 
         let startX = 0;
@@ -104,7 +190,8 @@ const ResizableImage = Image.extend({
 
           const onMouseMove = (e: MouseEvent) => {
             const deltaX = e.clientX - startX;
-            const newWidth = Math.max(100, Math.min(startWidth + deltaX, container.parentElement!.offsetWidth));
+            const maxWidth = container.parentElement!.offsetWidth;
+            const newWidth = Math.max(100, Math.min(startWidth + deltaX, maxWidth));
             img.style.width = newWidth + 'px';
           };
 
@@ -112,7 +199,6 @@ const ResizableImage = Image.extend({
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
 
-            // Update node attributes
             const newWidth = img.offsetWidth;
             if (typeof getPos === 'function') {
               editor.commands.updateAttributes('image', { width: newWidth });
@@ -124,6 +210,7 @@ const ResizableImage = Image.extend({
         };
 
         resizeHandle.addEventListener('mousedown', onMouseDown);
+        container.appendChild(toolbar);
         container.appendChild(resizeHandle);
       }
 
@@ -138,6 +225,29 @@ const ResizableImage = Image.extend({
           if (updatedNode.attrs.width) {
             img.style.width = updatedNode.attrs.width + 'px';
           }
+          
+          // Update alignment
+          const align = updatedNode.attrs.align || 'center';
+          if (align === 'left') {
+            container.style.display = 'block';
+            container.style.float = 'left';
+            container.style.marginRight = '1rem';
+            container.style.marginLeft = '0';
+            container.style.maxWidth = '50%';
+          } else if (align === 'right') {
+            container.style.display = 'block';
+            container.style.float = 'right';
+            container.style.marginLeft = '1rem';
+            container.style.marginRight = '0';
+            container.style.maxWidth = '50%';
+          } else {
+            container.style.display = 'block';
+            container.style.float = 'none';
+            container.style.marginLeft = 'auto';
+            container.style.marginRight = 'auto';
+            container.style.maxWidth = '100%';
+          }
+          
           return true;
         },
       };
@@ -202,7 +312,7 @@ export function RichTextEditor({
   }
 
   const handleImageInsert = (url: string) => {
-    editor.chain().focus().setImage({ src: url }).run();
+    editor.chain().focus().setImage({ src: url, align: 'center' } as any).run();
   };
 
   const MenuBar = () => (
@@ -338,6 +448,17 @@ export function RichTextEditor({
           .image-resizer img {
             transition: none;
           }
+          
+          .image-toolbar {
+            display: flex !important;
+          }
+          
+          /* Clear floats after images */
+          .ProseMirror::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
         `}
       </style>
       
@@ -363,10 +484,8 @@ export function RichTextViewer({ content }: { content: string }) {
     extensions: [
       StarterKit,
       Typography,
-      Image.configure({
-        HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg my-4',
-        },
+      ResizableImage.configure({
+        inline: false,
       }),
     ],
     content,
@@ -383,8 +502,40 @@ export function RichTextViewer({ content }: { content: string }) {
   }
 
   return (
-    <div className="rich-text-content">
-      <EditorContent editor={editor} />
-    </div>
+    <>
+      <style>
+        {`
+          /* Apply alignment styles in viewer */
+          .rich-text-content img[data-align="left"] {
+            float: left;
+            margin-right: 1rem;
+            max-width: 50%;
+          }
+          
+          .rich-text-content img[data-align="right"] {
+            float: right;
+            margin-left: 1rem;
+            max-width: 50%;
+          }
+          
+          .rich-text-content img[data-align="center"] {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 100%;
+          }
+          
+          /* Clear floats */
+          .rich-text-content::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+        `}
+      </style>
+      <div className="rich-text-content">
+        <EditorContent editor={editor} />
+      </div>
+    </>
   );
 }
