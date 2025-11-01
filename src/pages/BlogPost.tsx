@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { RichTextViewer } from '../components/RichTextEditor';
 import { Button } from '../components/ui/button';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, Share2, Twitter, Facebook, Linkedin } from 'lucide-react';
+import { Card, CardContent } from '../components/ui/card';
 
 interface Post {
   id: string;
   title: string;
   content: string;
   excerpt?: string;
+  slug?: string;
   published: boolean;
   created_at: string;
   published_at: string;
@@ -20,54 +22,61 @@ export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
+  const [recentPosts, setRecentPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
-    
-    async function load() {
-      setLoading(true);
-      
-      try {
-        // First try to find by slug
-        const { data, error } = await supabase
+    loadPost();
+  }, [slug]);
+
+  useEffect(() => {
+    fetchRecentPosts();
+  }, []);
+
+  async function loadPost() {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('slug', slug)
+        .eq('published', true)
+        .single();
+
+      if (error) {
+        const { data: dataById } = await supabase
           .from('posts')
           .select('*')
-          .eq('slug', slug)
-          .eq('published', true)  // Changed from status to published
+          .eq('id', slug)
+          .eq('published', true)
           .single();
-
-        if (!isMounted) return;
-
-        if (error) {
-          // If slug fails, try by ID
-          const { data: dataById, error: errorById } = await supabase
-            .from('posts')
-            .select('*')
-            .eq('id', slug)
-            .eq('published', true)
-            .single();
-
-          if (errorById) {
-            console.error('Error loading post:', errorById);
-            setPost(null);
-          } else {
-            setPost(dataById as Post);
-          }
-        } else {
-          setPost(data as Post);
-        }
-      } catch (error) {
-        console.error('Error loading post:', error);
-        setPost(null);
-      } finally {
-        if (isMounted) setLoading(false);
+        setPost(dataById as Post);
+      } else {
+        setPost(data as Post);
       }
+    } catch (error) {
+      console.error('Error loading post:', error);
+    } finally {
+      setLoading(false);
     }
-    
-    load();
-    return () => { isMounted = false };
-  }, [slug]);
+  }
+
+  const fetchRecentPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('id, title, slug, excerpt, cover_image, published_at')
+        .eq('published', true)
+        .order('published_at', { ascending: false })
+        .limit(3);
+
+      if (!error && data) {
+        setRecentPosts(data as Post[]);
+      }
+    } catch (err) {
+      console.error('Error fetching recent posts:', err);
+    }
+  };
 
   if (loading) {
     return (
@@ -89,17 +98,16 @@ export default function BlogPost() {
     );
   }
 
+  const shareUrl = encodeURIComponent(window.location.href);
+  const shareText = encodeURIComponent(`Check out this post: ${post.title}`);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-background backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate('/blog')}
-            >
+            <Button variant="ghost" size="icon" onClick={() => navigate('/blog')}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="text-center flex-1">
@@ -118,7 +126,7 @@ export default function BlogPost() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-headerText">
             {post.title}
           </h1>
-          
+
           {/* Date */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="w-4 h-4" />
@@ -136,6 +144,101 @@ export default function BlogPost() {
         <div className="prose-wrapper">
           <RichTextViewer content={post.content} />
         </div>
+
+        {/* Share Section */}
+        <div className="mt-12 border-t pt-8">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Share2 className="w-4 h-4" />
+            Share this article
+          </h3>
+
+          <div className="flex gap-3">
+            <a
+              href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 border rounded-full hover:bg-muted transition"
+            >
+              <Twitter className="w-5 h-5 text-sky-500" />
+            </a>
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 border rounded-full hover:bg-muted transition"
+            >
+              <Facebook className="w-5 h-5 text-blue-600" />
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 border rounded-full hover:bg-muted transition"
+            >
+              <Linkedin className="w-5 h-5 text-blue-700" />
+            </a>
+
+            {/* Copy Link Button */}
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                const toast = document.createElement('div');
+                toast.textContent = 'Link copied!';
+                toast.className =
+                  'fixed bottom-6 right-6 bg-black text-white text-sm px-3 py-2 rounded-lg shadow-lg animate-fadeInOut';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2000);
+              }}
+              className="p-2 border rounded-full hover:bg-muted transition"
+              title="Copy link"
+            >
+              <Share2 className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </div>
+        </div>
+
+        {/* Recent Posts Teaser */}
+        {recentPosts.length > 0 && (
+          <div className="mt-16 border-t pt-8">
+            <h3 className="text-lg font-semibold mb-6">Recent Posts</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              {recentPosts.map((rp) => (
+                <Card
+                  key={rp.id}
+                  className="overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  {rp.cover_image && (
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={rp.cover_image}
+                        alt={rp.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  <CardContent className="p-4">
+                    <time
+                      dateTime={rp.published_at}
+                      className="text-xs text-muted-foreground block mb-2"
+                    >
+                      {new Date(rp.published_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                    <Link
+                      to={`/blog/${rp.slug || rp.id}`}
+                      className="font-semibold text-headerText hover:text-yellow-600 transition-colors"
+                    >
+                      {rp.title}
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Back Button */}
         <div className="mt-12 pt-8 border-t border-border">
