@@ -616,6 +616,17 @@ export function RichTextEditor({
             line-height: 1.6;
           }
 
+          .rich-text-content span[style*="font-size"] {
+              line-height: 1.5;
+            }
+
+          .ProseMirror h1 span[style*="font-size"],
+          .ProseMirror h2 span[style*="font-size"],
+          .rich-text-content h1 span[style*="font-size"],
+          .rich-text-content h2 span[style*="font-size"] {
+            line-height: 1.25;
+          }
+
           .ProseMirror ul {
             list-style: disc !important;
             padding-left: 1.5rem !important;
@@ -732,6 +743,21 @@ export function RichTextViewer({ content }: { content: string }) {
 
           .rich-text-content li {
             margin: 0.25rem 0 !important;
+          }
+
+          .prose span[style*="font-size"] {
+            line-height: 1.6;
+          }
+
+          .rich-text-content span[style*="font-size"] {
+              line-height: 1.5;
+            }
+
+          .ProseMirror h1 span[style*="font-size"],
+          .ProseMirror h2 span[style*="font-size"],
+          .rich-text-content h1 span[style*="font-size"],
+          .rich-text-content h2 span[style*="font-size"] {
+            line-height: 1.25;
           }
         `}
       </style>
