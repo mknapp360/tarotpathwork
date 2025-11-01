@@ -7,11 +7,11 @@ import { Calendar, ArrowRight } from 'lucide-react'
 interface Post {
   id: string
   title: string
-  slug: string
-  excerpt: string | null
-  content_md: string
-  cover_image_url: string | null
-  published_at: string
+  slug?: string
+  excerpt?: string | null
+  content: string            // was content_md
+  cover_image?: string | null // was cover_image_url
+  published_at: string | null
 }
 
 export default function Home() {
@@ -25,12 +25,12 @@ export default function Home() {
   const fetchRecentPosts = async () => {
     try {
       const { data, error } = await supabase
-        .from('posts')
-        .select('id, title, slug, excerpt, content_md, cover_image_url, published_at')
-        .eq('status', 'published')
-        .not('published_at', 'is', null)
-        .order('published_at', { ascending: false })
-        .limit(3)
+      .from('posts')
+      .select('id, title, slug, excerpt, content, cover_image, published_at')
+      .eq('published', true)                       // was status='published'
+      .not('published_at', 'is', null)
+      .order('published_at', { ascending: false })
+      .limit(3)
 
       if (error) throw error
       setRecentPosts(data || [])
@@ -43,15 +43,14 @@ export default function Home() {
 
   const getExcerpt = (post: Post) => {
     if (post.excerpt) return post.excerpt
-    const text = post.content_md.replace(/<[^>]*>/g, '')
+    const text = post.content.replace(/<[^>]*>/g, '')
     return text.length > 150 ? text.substring(0, 150) + '...' : text
   }
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return ''
     return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      year: 'numeric', month: 'long', day: 'numeric'
     })
   }
 
@@ -155,10 +154,10 @@ export default function Home() {
                     className="group block"
                   >
                     <article className="h-full flex flex-col">
-                      {post.cover_image_url && (
+                      {post.cover_image && (
                         <div className="relative aspect-video overflow-hidden rounded-lg mb-4 bg-slate-100">
-                          <img
-                            src={post.cover_image_url}
+                          <img 
+                            src={post.cover_image}
                             alt={post.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
@@ -167,7 +166,7 @@ export default function Home() {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
                           <Calendar className="w-4 h-4" />
-                          <time dateTime={post.published_at}>
+                          <time dateTime={post.published_at || ''}>
                             {formatDate(post.published_at)}
                           </time>
                         </div>
